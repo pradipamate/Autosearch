@@ -12,8 +12,6 @@ export function initialData() {
      }
  }
 
- 
-
 export const datafetchsuccessfully = (data) => ({
     type: "DATA_FETCH",
     payload: data
