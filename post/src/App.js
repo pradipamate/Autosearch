@@ -38,20 +38,8 @@ class App extends Component {
     onChangesearchHandler(event) {
         console.log("evenet",event.target.value)
         if(event.target.value.length!==0){
-              var initialdata=this.props.Datafetch;
-              var ALldisplaydata=initialdata.DataFetch
-              console.log("initialdata",ALldisplaydata);
-              var selected=event.target.value;
-                 console.log("selected",selected)
-                    const newData = ALldisplaydata.filter(function(item) {
-                    const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
-                    const textData = selected.toUpperCase();
-                    return itemData.indexOf(textData) > -1 ;
-                    });
-                    this.setState({
-                         displaydata:newData,
-                    })
-               }
+            this.props.dispatch(FetchingRequest(event.target.value));
+        }
         else{
             this.props.dispatch(initialData());
         }

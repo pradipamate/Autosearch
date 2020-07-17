@@ -1,4 +1,11 @@
 
+// export function initialData() {
+//  const data = axios.gethttps://jsonplaceholder.typicode.com/posts;
+//     return  dispatch =>{
+//            dispatch({ type:"TEST_RANDOM_DATA", payload:data});
+//     }
+// }
+
 export function initialData() {
     return dispatch => {
         return fetch("https://jsonplaceholder.typicode.com/posts")
@@ -19,3 +26,8 @@ export const datafetchsuccessfully = (data) => ({
     payload: data
 })
 
+export function FetchingRequest(data) {
+    return  dispatch =>{
+           dispatch({ type:"SOLVE_DATA",payload:data});
+    }
+}
