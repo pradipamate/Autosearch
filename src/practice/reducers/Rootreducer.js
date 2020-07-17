@@ -1,7 +1,7 @@
-import PuzzleReducer from './PuzzleReducer';
+import PostReducer from './PostReducer';
 import {combineReducers} from 'redux';
 
 export default combineReducers({
-    DataFetch:PuzzleReducer
+    DataFetch:PostReducer
 
 })

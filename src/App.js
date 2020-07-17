@@ -1,19 +1,41 @@
 import React, { Component } from "react";
-import {initialData,FetchingRequest} from "./practice/actions/PuzzleAction";
+import {initialData,FetchingRequest} from "./practice/actions/PostAction";
 import {Col,Row,Container,Table} from "react-bootstrap";
 import { connect } from "react-redux";
+
 
 
 class App extends Component {
     constructor(props) {
         super(props);
-        this.onChangeHandler = this.onChangeHandler.bind(this);
+      this.state={
+          mainpage:null,
+          deatilpage:null,
+          displaydetail:null,
+          title:null,
+          body:null,
+          id:null
+      }
+
+        this.onChangesearchHandler = this.onChangesearchHandler.bind(this);
+
     }
 
     componentDidMount() {
         this.props.dispatch(initialData());
-    }
-    onChangeHandler(event) {
+        setTimeout(() => {
+         var Data =  this.props.Datafetch;
+         console.log(Data);
+         var ALldisplaydata=Data.DataFetch;
+         console.log("ALldisplaydata",ALldisplaydata);
+        this.setState({
+          displaydata:ALldisplaydata,
+        })
+    }, 1000);   
+}
+
+
+    onChangesearchHandler(event) {
         console.log("evenet",event.target.value)
         if(event.target.value.length!==0){
             this.props.dispatch(FetchingRequest(event.target.value));
@@ -22,43 +44,79 @@ class App extends Component {
             this.props.dispatch(initialData());
         }
     }
+
+     TitleDetaile(id) {
+         var Data =  this.props.Datafetch;
+         var ALldisplaydata=Data.DataFetch;
+        var Requestviewdata=ALldisplaydata.find(item=>item.id===id);
+        console.log("Requestviewdata",Requestviewdata);
+         this.setState({
+             mainpage: true,
+             deatilpage:true,
+             displaydetail:Requestviewdata,
+             title:Requestviewdata.title,
+             id:Requestviewdata.id,
+             body:Requestviewdata.body
+         })
+       
+    }
     
     render() {  
      
-          var Data = this.props.Datafetch;
-          var data=Data.DataFetch;
-          console.log("data",data);
-          if(data !==undefined){
-           var List=data.map((item)=>
-                <tr>
-                    <td>{item.name}</td>
-                    <td>{item.age}</td>
-                    <td>{item.gender}</td>
-                </tr>
-            )
+          var Data = this.state.displaydata;
+          console.log("Data",Data);
+
+          if( Data!==null&&Data!==undefined){
+                if(Data.length>0) {
+                    var List=Data.map((item)=>
+                            <tr key={item.id}>
+                                <td>{item.id}</td>
+                                <td>{item.title}</td>
+                                <td>{item.body}</td>
+                                <td onClick={() => this.TitleDetaile(item.id)} className="more">More</td>
+                            </tr>
+                        )
+                }
+        
           }
         return (
             <div>
-              <Container fluid={true}>
+              <Container>
                     <Row>
-                        <div>
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                <th>Name</th>
-                                <th>Age</th>
-                                <th>Gender</th>
-                                </tr>
-                                <tr>
-                                <th><input type="text" onChange={this.onChangeHandler}/></th>
-                                <th><input type="text" /></th>
-                                <th><input type="text" /></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {List}
-                            </tbody>
-                          </Table>
+                        <div className={this.state.mainpage ? "maindiv":""}>
+                          <input type="text" placeholder="enter title Name" onChange={this.onChangesearchHandler}  /> 
+                            <Table striped bordered hover>
+                                <thead>
+                                    <tr>
+                                    <th>UserId</th>
+                                    <th>Title</th>
+                                    <th>Body</th>
+                                    <th>More</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {List}
+                                </tbody>
+                              </Table>
+                         </div>
+
+                          <div className={this.state.deatilpage? "deatilpage":"displayhide"}>
+                            <Table striped bordered hover>
+                                <thead>
+                                    <tr>
+                                    <th>UserId</th>
+                                    <th>Title</th>
+                                    <th>Body</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     <tr>
+                                      <td>{this.state.id}</td>
+                                      <td>{this.state.title}</td>
+                                      <td>{this.state.body}</td>
+                                       </tr>   
+                                </tbody>
+                              </Table>
                          </div>
                       </Row>
                </Container>

@@ -1,6 +1,6 @@
 {
-  "homepage": "http://pradipamate.github.io/Autosearch",
-  "name": "PuzzleApp",
+  "homepage": "http://pradipamate.github.io/post",
+  "name": "postapp",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
